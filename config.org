@@ -1,7 +1,7 @@
 #+TITLE:     Doom Config
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
-Time-stamp: <2020-02-11 13:43:08 alister>
+Time-stamp: <2020-02-12 06:05:50 alister>
 * Original Config file
 This is the original conf file
 #+BEGIN_SRC emacs-lisp
@@ -28,11 +28,12 @@ This is the original conf file
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Iosevka" :size 14))
-(setq doom-variable-pitch-font (font-spec :family "Ubuntu" :size 14))
+(setq doom-font (font-spec :family "Iosevka" :height 140))
+(setq doom-variable-pitch-font (font-spec :family "Ubuntu" :height 140))
 ;; (setq doom-font (font-spec :family "Office Code Pro" :size 14))
 
 #+END_SRC
+
 
 ** Theme
 #+BEGIN_SRC emacs-lisp
@@ -76,6 +77,7 @@ they are implemented.
 :END:
 So this gruvbox theme is okay - but I would like to have a better variable pitch
 font - and I still find that white on black is blurry on this NEC monitor.
+[[youtube:aU1EV8gzZb8][Zaiste's Org-mode linking]]
 ** Projectile
 *** TODO What is the command to perform an index of Projects?
 =M-x projectile-discover-projects-in-search-path=
