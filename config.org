@@ -1,7 +1,7 @@
 #+TITLE:     Doom Config
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
-Time-stamp: <2020-02-12 06:05:50 alister>
+Time-stamp: <2020-02-12 07:52:12 alister>
 * Original Config file
 This is the original conf file
 #+BEGIN_SRC emacs-lisp
@@ -18,7 +18,11 @@ This is the original conf file
 #+END_SRC
 
 ** Default font
-#+BEGIN_SRC emacs-lisp
+The font height needs to be customised per machine/display so I'll create a
+=+local.el= file and load it here.
+(Use =:#,#w +local.el= with the line-numbers of the fonts below to write those lines)
+The +local file will not be added to VC.
+#+BEGIN_SRC emacs-lisp :tangle no
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -31,7 +35,7 @@ This is the original conf file
 (setq doom-font (font-spec :family "Iosevka" :height 140))
 (setq doom-variable-pitch-font (font-spec :family "Ubuntu" :height 140))
 ;; (setq doom-font (font-spec :family "Office Code Pro" :size 14))
-
+(load! "+local")
 #+END_SRC
 
 
