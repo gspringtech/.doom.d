@@ -1,7 +1,7 @@
 #+TITLE:     Doom Config
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
-Time-stamp: <2020-02-12 07:52:12 alister>
+Time-stamp: <2020-02-14 08:07:45 alister>
 * Original Config file
 This is the original conf file
 #+BEGIN_SRC emacs-lisp
@@ -22,7 +22,7 @@ The font height needs to be customised per machine/display so I'll create a
 =+local.el= file and load it here.
 (Use =:#,#w +local.el= with the line-numbers of the fonts below to write those lines)
 The +local file will not be added to VC.
-#+BEGIN_SRC emacs-lisp :tangle no
+#+BEGIN_SRC emacs-lisp
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
 ;;
@@ -32,8 +32,8 @@ The +local file will not be added to VC.
 ;;
 ;; They all accept either a font-spec, font string ("Input Mono-12"), or xlfd
 ;; font string. You generally only need these two:
-(setq doom-font (font-spec :family "Iosevka" :height 140))
-(setq doom-variable-pitch-font (font-spec :family "Ubuntu" :height 140))
+;; (setq doom-font (font-spec :family "Iosevka" :height 140))
+;; (setq doom-variable-pitch-font (font-spec :family "Ubuntu" :height 140))
 ;; (setq doom-font (font-spec :family "Office Code Pro" :size 14))
 (load! "+local")
 #+END_SRC
@@ -85,6 +85,7 @@ font - and I still find that white on black is blurry on this NEC monitor.
 ** Projectile
 *** TODO What is the command to perform an index of Projects?
 =M-x projectile-discover-projects-in-search-path=
+If it doesn't work, may need to delete =~/.emacs.d/.local/cache/projectile.*=
 *** Paths
 #+BEGIN_SRC emacs-lisp
 (setq projectile-project-search-path '("~/Development"))
