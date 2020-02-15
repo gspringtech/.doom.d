@@ -1,7 +1,7 @@
 #+TITLE:     Doom Config
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
-Time-stamp: <2020-02-14 08:07:45 alister>
+Time-stamp: <2020-02-14 12:29:04 alister>
 * Original Config file
 This is the original conf file
 #+BEGIN_SRC emacs-lisp
@@ -97,7 +97,11 @@ My whole Doom adventure was sparked by NMartin's work. See [[https://github.com/
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/Dropbox/org/")
 (add-hook 'before-save-hook 'time-stamp)
+(setq org-agenda-files "~/Dropbox/org/agenda-files")
 #+END_SRC
+
+#+RESULTS:
+: ~/Dropbox/org/agenda-files
 
 *** Appearance
 **** org fonts
@@ -143,6 +147,17 @@ From https://zzamboni.org/post/beautifying-org-mode-in-emacs/
 #+BEGIN_SRC emacs-lisp
 (setq org-hide-emphasis-markers t)
 #+END_SRC
+**** TODO org-fancy-priorities
+I have installed this. It will let me replace the [#A] mark with an icon
+#+BEGIN_SRC emacs-lisp
+(def-package! org-fancy-priorities
+  :hook (org-mode . org-fancy-priorities-mode)
+  :config (setq org-fancy-priorities-list
+                ;; '("◼" "◼" "◼")
+                '("⚡" "⬆" "⬇" "☕")
+                ))
+#+END_SRC
+
 *** My keybindings
 My first attempt at adding a key binding - and /it works!/
 The key path for Toggle Subtree is =SPC m g s= and it works perfectly.

@@ -56,6 +56,7 @@
 (package! org-super-agenda)
 ;; (package! elfeed)
 ;; (package! elfeed-org)
+(package! org-fancy-priorities)
 (package! org-board)
 (package! org-mind-map)
 (package! ox-pandoc)
