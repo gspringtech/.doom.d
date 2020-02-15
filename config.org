@@ -1,7 +1,7 @@
 #+TITLE:     Doom Config
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
-Time-stamp: <2020-02-14 12:29:04 alister>
+Time-stamp: <2020-02-16 08:47:12 alister>
 * Original Config file
 This is the original conf file
 #+BEGIN_SRC emacs-lisp
@@ -150,7 +150,7 @@ From https://zzamboni.org/post/beautifying-org-mode-in-emacs/
 **** TODO org-fancy-priorities
 I have installed this. It will let me replace the [#A] mark with an icon
 #+BEGIN_SRC emacs-lisp
-(def-package! org-fancy-priorities
+(use-package! org-fancy-priorities
   :hook (org-mode . org-fancy-priorities-mode)
   :config (setq org-fancy-priorities-list
                 ;; '("◼" "◼" "◼")
