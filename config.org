@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-02-18 13:14:02 alister>
+Time-stamp: <2020-02-18 13:43:34 alister>
 * Original Config file
 :PROPERTIES:
 :CATEGORY: DOOM
@@ -124,7 +124,8 @@ larger. Emacs doesn't seem to have a 'maximize-height' function, so this is it..
 
 (defun maximise-frame-height ()
   (interactive)
-  (set-frame-height nil (get-maximised-height)))
+  (set-frame-height nil (get-maximised-height))
+  (set-frame-width nil 150))
 (map! :leader
       (:prefix "w"
         :n "t" #'maximise-frame-height))
