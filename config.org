@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-02-18 13:43:34 alister>
+Time-stamp: <2020-02-18 14:00:05 alister>
 * Original Config file
 :PROPERTIES:
 :CATEGORY: DOOM
@@ -125,17 +125,15 @@ larger. Emacs doesn't seem to have a 'maximize-height' function, so this is it..
 (defun maximise-frame-height ()
   (interactive)
   (set-frame-height nil (get-maximised-height))
-  (set-frame-width nil 150))
+  (set-frame-width nil 150)
+  )
 (map! :leader
       (:prefix "w"
         :n "t" #'maximise-frame-height))
 #+end_src
 
-#+RESULTS:
-: maximise-frame-height
-
-#+END_SRC
-
+Very annoying to find that in Ubuntu, when the frame is maximised in height, it
+then automatically becomes fully maximised. What a drag.
 
 *** Keys
 Copied some from NMartin's setup
