@@ -1,8 +1,12 @@
 #+TITLE:     Doom Config
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
-Time-stamp: <2020-02-16 08:47:12 alister>
+#+CATEGORY: CONFIG
+Time-stamp: <2020-02-18 13:14:02 alister>
 * Original Config file
+:PROPERTIES:
+:CATEGORY: DOOM
+:END:
 This is the original conf file
 #+BEGIN_SRC emacs-lisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
@@ -19,7 +23,7 @@ This is the original conf file
 
 ** Default font
 The font height needs to be customised per machine/display so I'll create a
-=+local.el= file and load it here.
+[[file:+local.el][+local.el]] file and load it here.
 (Use =:#,#w +local.el= with the line-numbers of the fonts below to write those lines)
 The +local file will not be added to VC.
 #+BEGIN_SRC emacs-lisp
@@ -37,7 +41,6 @@ The +local file will not be added to VC.
 ;; (setq doom-font (font-spec :family "Office Code Pro" :size 14))
 (load! "+local")
 #+END_SRC
-
 
 ** Theme
 #+BEGIN_SRC emacs-lisp
@@ -90,30 +93,101 @@ If it doesn't work, may need to delete =~/.emacs.d/.local/cache/projectile.*=
 #+BEGIN_SRC emacs-lisp
 (setq projectile-project-search-path '("~/Development"))
 #+END_SRC
+** General settings
+*** Functions
+When emacs starts, the frame is very small and I've been dragging to make it
+larger. Emacs doesn't seem to have a 'maximize-height' function, so this is it...
+#+BEGIN_SRC emacs-lisp
+
+(defun get-maximised-height ()
+  "Maximise the frame and then get its height"
+  (interactive)
+  (let ((fullscreen (frame-parameter nil 'fullscreen)))
+    (cond ((eq fullscreen 'maximized)
+           ;; already maximised so return frame-height
+           (frame-height))
+          ((eq fullscreen 'fullboth)
+           ;; this condition is where the menubar is hidden - mac full screen
+           ;; so make it normal
+           (progn
+             (toggle-frame-fullscreen) ;; turn off the full-screen
+             (toggle-frame-maximized)  ;; maximise the window
+             (let ((h (frame-height))) ;; measure the height
+               (toggle-frame-maximized)  ;; revert maximized
+               (toggle-frame-fullscreen) ;; revert to fullscreen
+               h)))
+          (t (progn
+               (toggle-frame-maximized)
+               (let ((h (frame-height)))
+                 (toggle-frame-maximized)
+                 h))))))
+
+(defun maximise-frame-height ()
+  (interactive)
+  (set-frame-height nil (get-maximised-height)))
+(map! :leader
+      (:prefix "w"
+        :n "t" #'maximise-frame-height))
+#+end_src
+
+#+RESULTS:
+: maximise-frame-height
+
+#+END_SRC
+
+
+*** Keys
+Copied some from NMartin's setup
+#+BEGIN_SRC emacs-lisp
+(map! :leader
+      :n "e" #'ace-window
+      :n "!" #'swiper
+      :n "@" #'swiper-all
+      :n "#" #'deadgrep
+      :n "j" #'org-journal-new-entry
+      (:prefix "s"
+        :n "d" #'deadgrep
+        :n "q" #'org-ql-search)
+      (:prefix "t"
+        :n "s" #'org-toggle-narrow-to-subtree)
+      (:prefix "/"
+        :n "j" #'org-journal-search)
+    )
+#+END_SRC
 ** Org
+:PROPERTIES:
+:CATEGORY: ORG
+:END:
 My whole Doom adventure was sparked by NMartin's work. See [[https://github.com/nmartin84/.doom.d#org3c01be3][his org conf]]
 *** Setup
 #+BEGIN_SRC emacs-lisp
 ;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/Dropbox/org/")
+(after! org (setq org-directory "~/Dropbox/org/"
+      org-ellipsis " ▼ "
+      org-bullets-bullet-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
 (add-hook 'before-save-hook 'time-stamp)
 (setq org-agenda-files "~/Dropbox/org/agenda-files")
 #+END_SRC
 
 #+RESULTS:
 : ~/Dropbox/org/agenda-files
+*** TODO Install and enable Habits
+Henrik's setup includes *org-habits*
+See [[https://orgmode.org/manual/Tracking-your-habits.html][Tracking your habits (The Org Manual)]]
+This would be really useful for reminding me to REVIEW stuff, and for other
+repeating things. Apparently it shows a Graph of your consistency.
 
 *** Appearance
 **** org fonts
 I like to have big headings
 #+BEGIN_SRC emacs-lisp
 (after! org
+    (set-face-attribute 'org-document-title nil :height 1.5 :background nil :weight 'light)
     (set-face-attribute 'org-level-1 nil :height 1.4 :background nil :weight 'light)
     (set-face-attribute 'org-level-2 nil :height 1.3 :background nil :weight 'light)
     (set-face-attribute 'org-level-3 nil :height 1.2 :background nil :weight 'normal)
     (set-face-attribute 'org-level-4 nil :height 1.0 :background nil :weight 'semi-bold)
     (set-face-attribute 'org-link nil    :height 1.0 :background nil :weight 'normal)
-    (set-face-attribute 'org-document-title nil :height 1.6 :background nil :weight 'light)
     (setq org-journal-dir "~/Dropbox/org/journal"
           org-journal-date-format "%A, %d %B %Y"
           org-journal-encrypt-journal t
@@ -128,10 +202,14 @@ I like to have big headings
 this is from my old config and while it *does* work, it seems to apply
 everywhere - which is not what I want.
 #+BEGIN_SRC emacs-lisp :tangle no
-(add-hook 'text-mode-hook
-          (lambda ()
-            (variable-pitch-mode t)))
+;;(add-hook 'text-mode-hook 'variable-pitch-mode)
+(add-hook 'org-mode-hook 'variable-pitch-mode)
+(add-hook 'org-mode-hook 'visual-line-mode)
 #+END_SRC
+
+#+RESULTS:
+| (lambda nil (variable-pitch-mode t)) | er/add-text-mode-expansions | yas-minor-mode-on | auto-fill-mode | display-line-numbers-mode | hl-line-mode | goto-address-mode | vi-tilde-fringe-mode | text-mode-hook-identify |
+
 **** Org Variable pitch v2
 From https://zzamboni.org/post/beautifying-org-mode-in-emacs/
 #+BEGIN_SRC emacs-lisp
@@ -145,16 +223,16 @@ From https://zzamboni.org/post/beautifying-org-mode-in-emacs/
 **** DONE Fix display of emphasised text by hiding markers
 - Fix the display of /emphasised text/
 #+BEGIN_SRC emacs-lisp
-(setq org-hide-emphasis-markers t)
+(setq org-hide-emphasis-markers nil)
 #+END_SRC
 **** TODO org-fancy-priorities
 I have installed this. It will let me replace the [#A] mark with an icon
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package! org-fancy-priorities
   :hook (org-mode . org-fancy-priorities-mode)
   :config (setq org-fancy-priorities-list
                 ;; '("◼" "◼" "◼")
-                '("⚡" "⬆" "⬇" "☕")
+                '("☞" "⬆" "⬇" "☕")
                 ))
 #+END_SRC
 
@@ -169,6 +247,75 @@ Also want a shortcut for creating a new journal entry - it's =SPC m j=
         :desc "Toggle subtree" "s" 'org-toggle-narrow-to-subtree)
       :desc "New journal entry" "j" 'org-journal-new-entry )
 #+END_SRC
+*** Agenda, tasks and tags
+It's important to be consistent because otherwise TODO-markers will not be
+recognised. I've decided to go with the default TODO markers
+
+Super Agenda [[https://github.com/alphapapa/org-super-agenda][alphapapa/org-super-agenda: Supercharge your Org daily/weekly agenda by grouping items]]
+#+BEGIN_SRC emacs-lisp :tangle no
+(use-package! org-super-agenda
+  :init
+  (setq org-super-agenda-groups
+       '(;; Each group has an implicit boolean OR operator between its selectors.
+         (:name "Today"  ; Optionally specify section name
+                :time-grid t  ; Items that appear on the time grid
+                :scheduled today)
+         (:name "Due today"
+                ;; Single arguments given alone
+                :deadline today)
+         (:name "Important"
+                :priority "A")
+         (:name "Overdue"
+                :deadline past)
+         (:name "Due soon"
+                :deadline future)
+         (:name "Review"
+                :tag "review")
+         ;; Set order of multiple groups at once
+         (:order-multi (2 (:name "Shopping in town"
+                                 ;; Boolean AND group matches items that match all subgroups
+                                 :and (:tag "shopping" :tag "@town"))
+                          (:name "Food-related"
+                                 ;; Multiple args given in list with implicit OR
+                                 :tag ("food" "dinner"))
+                          (:name "Personal"
+                                 :habit t
+                                 :tag "personal")
+                          (:name "Space-related (non-moon-or-planet-related)"
+                                 ;; Regexps match case-insensitively on the entire entry
+                                 :and (:regexp ("space" "NASA")
+                                               ;; Boolean NOT also has implicit OR between selectors
+                                               :not (:regexp "moon" :tag "planet")))))
+         ;; Groups supply their own section names when none are given
+         (:todo "WAIT" :order 8)  ; Set order of this section
+         (:todo ("SOMEDAY" "TO-READ" "CHECK" "TO-WATCH" "WATCHING")
+                ;; Show this group at the end of the agenda (since it has the
+                ;; highest number). If you specified this group last, items
+                ;; with these todo keywords that e.g. have priority A would be
+                ;; displayed in that group instead, because items are grouped
+                ;; out in the order the groups are listed.
+                :order 9)
+         (:priority<= "B"
+                      ;; Show this section after "Today" and "Important", because
+                      ;; their order is unspecified, defaulting to 0. Sections
+                      ;; are displayed lowest-number-first.
+                      :order 1)
+         ;; After the last group, the agenda will display items that didn't
+         ;; match any of these groups, with the default order position of 99
+         ))
+  :config (org-super-agenda-mode))
+#+END_SRC
+
+Simplified Super-agenda using automatic categories
+#+BEGIN_SRC emacs-lisp
+(after! org (setq org-super-agenda-groups
+                   '((:auto-category t))))
+
+#+END_SRC
+
+#+RESULTS:
+| :auto-category | t |
+
 
 *** NMartin's setup
 [[https://github.com/nmartin84/.doom.d/blob/master/config.org][config.org]]
@@ -177,8 +324,6 @@ Also want a shortcut for creating a new journal entry - it's =SPC m j=
 (bind-key "C-<down>" #'+org/insert-item-below)
 #+END_SRC
 (that worked!)
-****
-
 *** Behaviour
 **** evil-org
 fix the tab visibility cycling

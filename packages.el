@@ -68,4 +68,5 @@
 (package! metrics-tracker)
 (package! org-web-tools)
 (package! org-journal)
-(package! evil-tutor)
+(package! org-autolist)
+;; (package! evil-tutor)
