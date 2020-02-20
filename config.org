@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-02-18 14:00:05 alister>
+Time-stamp: <2020-02-20 10:56:24 alister>
 * Original Config file
 :PROPERTIES:
 :CATEGORY: DOOM
@@ -142,10 +142,10 @@ Copied some from NMartin's setup
       :n "e" #'ace-window
       :n "!" #'swiper
       :n "@" #'swiper-all
-      :n "#" #'deadgrep
+;;      :n "#" #'deadgrep
       :n "j" #'org-journal-new-entry
       (:prefix "s"
-        :n "d" #'deadgrep
+;;      :n "d" #'deadgrep
         :n "q" #'org-ql-search)
       (:prefix "t"
         :n "s" #'org-toggle-narrow-to-subtree)
@@ -168,14 +168,19 @@ My whole Doom adventure was sparked by NMartin's work. See [[https://github.com/
 (setq org-agenda-files "~/Dropbox/org/agenda-files")
 #+END_SRC
 
-#+RESULTS:
-: ~/Dropbox/org/agenda-files
+*** Autolist
+The default list behaviour is a little annoying - this package is supposed to
+help
+#+BEGIN_SRC emacs-lisp
+(add-hook 'org-mode-hook #'org-autolist-mode)
+#+END_SRC
+
+
 *** TODO Install and enable Habits
 Henrik's setup includes *org-habits*
 See [[https://orgmode.org/manual/Tracking-your-habits.html][Tracking your habits (The Org Manual)]]
 This would be really useful for reminding me to REVIEW stuff, and for other
 repeating things. Apparently it shows a Graph of your consistency.
-
 *** Appearance
 **** org fonts
 I like to have big headings
@@ -194,30 +199,14 @@ I like to have big headings
 
 #+END_SRC
 
-#+RESULTS:
-: monthly
-
 **** org variable pitch
 this is from my old config and while it *does* work, it seems to apply
 everywhere - which is not what I want.
 #+BEGIN_SRC emacs-lisp :tangle no
 ;;(add-hook 'text-mode-hook 'variable-pitch-mode)
 (add-hook 'org-mode-hook 'variable-pitch-mode)
-(add-hook 'org-mode-hook 'visual-line-mode)
+;;(add-hook 'org-mode-hook 'visual-line-mode)
 #+END_SRC
-
-#+RESULTS:
-| (lambda nil (variable-pitch-mode t)) | er/add-text-mode-expansions | yas-minor-mode-on | auto-fill-mode | display-line-numbers-mode | hl-line-mode | goto-address-mode | vi-tilde-fringe-mode | text-mode-hook-identify |
-
-**** Org Variable pitch v2
-From https://zzamboni.org/post/beautifying-org-mode-in-emacs/
-#+BEGIN_SRC emacs-lisp
-;; (add-hook 'org-mode-hook 'variable-pitch-mode)
-;; (add-hook 'org-mode-hook 'visual-line-mode)
-#+END_SRC
-
-#+RESULTS:
-| visual-line-mode | (closure (t) (&rest _) (add-hook (quote before-save-hook) (quote org-encrypt-entries) nil t)) | er/add-org-mode-expansions | #[0 \301\211\207 [imenu-create-index-function org-imenu-get-tree] 2] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-show-all append local] 5] | #[0 \300\301\302\303\304$\207 [add-hook change-major-mode-hook org-babel-show-result-all append local] 5] | org-babel-result-hide-spec | org-babel-hide-all-hashes | variable-pitch-mode | doom-disable-show-paren-mode-h | doom-disable-show-trailing-whitespace-h | +org-enable-auto-reformat-tables-h | +org-enable-auto-update-cookies-h | +org-unfold-to-2nd-level-or-point-h | evil-org-mode | org-bullets-mode | toc-org-enable | +evil-embrace-latex-mode-hook-h | embrace-org-mode-hook | org-journal-update-auto-mode-alist | org-eldoc-load |
 
 **** DONE Fix display of emphasised text by hiding markers
 - Fix the display of /emphasised text/
@@ -311,10 +300,6 @@ Simplified Super-agenda using automatic categories
                    '((:auto-category t))))
 
 #+END_SRC
-
-#+RESULTS:
-| :auto-category | t |
-
 
 *** NMartin's setup
 [[https://github.com/nmartin84/.doom.d/blob/master/config.org][config.org]]
