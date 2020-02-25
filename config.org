@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-02-20 10:56:24 alister>
+Time-stamp: <2020-02-25 09:55:21 alister>
 * Original Config file
 :PROPERTIES:
 :CATEGORY: DOOM
@@ -23,7 +23,7 @@ This is the original conf file
 
 ** Default font
 The font height needs to be customised per machine/display so I'll create a
-[[file:+local.el][+local.el]] file and load it here.
+[[file:+local.el][+local.el]] file and load it at the end of this config file.
 (Use =:#,#w +local.el= with the line-numbers of the fonts below to write those lines)
 The +local file will not be added to VC.
 #+BEGIN_SRC emacs-lisp
@@ -39,7 +39,6 @@ The +local file will not be added to VC.
 ;; (setq doom-font (font-spec :family "Iosevka" :height 140))
 ;; (setq doom-variable-pitch-font (font-spec :family "Ubuntu" :height 140))
 ;; (setq doom-font (font-spec :family "Office Code Pro" :size 14))
-(load! "+local")
 #+END_SRC
 
 ** Theme
@@ -47,7 +46,7 @@ The +local file will not be added to VC.
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-challenger-deep) ;; Dark and colourful. Okay - easy to see stuff.
+(setq doom-theme 'doom-opera) ;; This has a better separation between inactive and active buffers.
 ;; (setq doom-theme 'doom-gruvbox)
 ;;(setq doom-theme 'doom-acario-light) ;; light - too white. SRC blocks not well marked
 ;; tried these
@@ -143,14 +142,12 @@ Copied some from NMartin's setup
       :n "!" #'swiper
       :n "@" #'swiper-all
 ;;      :n "#" #'deadgrep
-      :n "j" #'org-journal-new-entry
       (:prefix "s"
 ;;      :n "d" #'deadgrep
         :n "q" #'org-ql-search)
       (:prefix "t"
         :n "s" #'org-toggle-narrow-to-subtree)
-      (:prefix "/"
-        :n "j" #'org-journal-search)
+
     )
 #+END_SRC
 ** Org
@@ -233,7 +230,7 @@ Also want a shortcut for creating a new journal entry - it's =SPC m j=
       :map org-mode-map
       (:prefix "g"
         :desc "Toggle subtree" "s" 'org-toggle-narrow-to-subtree)
-      :desc "New journal entry" "j" 'org-journal-new-entry )
+      )
 #+END_SRC
 *** Agenda, tasks and tags
 It's important to be consistent because otherwise TODO-markers will not be
@@ -315,6 +312,39 @@ fix the tab visibility cycling
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 #+END_SRC
+** Org-Journal adjustments
+As per [[https://www.rousette.org.uk/archives/doom-emacs-tweaks-org-journal-and-org-super-agenda/][BSAG » Doom Emacs tweaks: Org Journal and Super Agenda]]
+#+BEGIN_SRC emacs-lisp
+;; in ~/.doom.d/+bindings.el
+(map! :leader
+      (:prefix ("j" . "journal") ;; org-journal bindings
+        :desc "Open the calendar"         "c" #'calendar
+        :desc "Fancy calendar!"           "f" #'calendar=
+        :desc "Create new journal entry"  "j" #'org-journal-new-entry
+        :desc "Open previous entry"       "p" #'org-journal-open-previous-entry
+        :desc "Open next entry"           "n" #'org-journal-open-next-entry
+        :desc "Search journal"            "s" #'org-journal-search-forever))
+
+;; The built-in calendar mode mappings for org-journal
+;; conflict with evil bindings
+(map!
+ (:map calendar-mode-map
+   :n "o" #'org-journal-display-entry
+   :n "p" #'org-journal-previous-entry
+   :n "n" #'org-journal-next-entry
+   :n "O" #'org-journal-new-date-entry))
+
+;; Local leader (<SPC m>) bindings for org-journal in calendar-mode
+;; I was running out of bindings, and these are used less frequently
+;; so it is convenient to have them under the local leader prefix
+(map!
+ :map (calendar-mode-map)
+ :localleader
+ "w" #'org-journal-search-calendar-week
+ "m" #'org-journal-search-calendar-month
+ "y" #'org-journal-search-calendar-year)
+#+END_SRC
+
 ** Clojure
 Paredit mode is not enabled for clojure* by default.
 Enable it for clojure modes, then use which-key to get the correct key bindings
@@ -325,3 +355,9 @@ Enable it for clojure modes, then use which-key to get the correct key bindings
 (add-hook! 'clojurec-mode-hook #'paredit-mode)
 (add-hook! 'clojurescript-mode-hook #'paredit-mode)
 #+END_SRC
+** Local config
+Add local config at the end (but it makes no difference)
+#+BEGIN_SRC emacs-lisp
+(load! "+local")
+#+END_SRC
+That is it.
