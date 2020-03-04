@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-02-25 09:55:21 alister>
+Time-stamp: <2020-03-05 07:54:44 alister>
 * Original Config file
 :PROPERTIES:
 :CATEGORY: DOOM
@@ -350,11 +350,16 @@ Paredit mode is not enabled for clojure* by default.
 Enable it for clojure modes, then use which-key to get the correct key bindings
 #+BEGIN_SRC emacs-lisp
 (add-hook! 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
+(add-hook! 'cider-repl-mode-hook #'paredit-mode)
 (add-hook! 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
 (add-hook! 'clojure-mode-hook #'paredit-mode)
 (add-hook! 'clojurec-mode-hook #'paredit-mode)
 (add-hook! 'clojurescript-mode-hook #'paredit-mode)
 #+END_SRC
+
+#+RESULTS:
+| paredit-mode |
+
 ** Local config
 Add local config at the end (but it makes no difference)
 #+BEGIN_SRC emacs-lisp
