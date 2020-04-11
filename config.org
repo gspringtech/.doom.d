@@ -2,7 +2,8 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-03-05 07:54:44 alister>
+Time-stamp: <2020-04-11 10:15:10 alisterpillow>
+[[doom-modules:editor/evil/README.org][evil Readme]]
 * Original Config file
 :PROPERTIES:
 :CATEGORY: DOOM
@@ -133,6 +134,13 @@ larger. Emacs doesn't seem to have a 'maximize-height' function, so this is it..
 
 Very annoying to find that in Ubuntu, when the frame is maximised in height, it
 then automatically becomes fully maximised. What a drag.
+*** Normal state
+Always switch to evil-normal-state when leaving emacs
+Otherwise I have to look to see what state I'm in.
+#+BEGIN_SRC emacs-lisp
+(add-hook 'focus-out-hook #'evil-normal-state)
+#+END_SRC
+
 
 *** Keys
 Copied some from NMartin's setup
@@ -156,14 +164,18 @@ Copied some from NMartin's setup
 :END:
 My whole Doom adventure was sparked by NMartin's work. See [[https://github.com/nmartin84/.doom.d#org3c01be3][his org conf]]
 *** Setup
+https://github.com/hlissner/doom-emacs/issues/576
 #+BEGIN_SRC emacs-lisp
 ;; If you intend to use org, it is recommended you change this!
-(after! org (setq org-directory "~/Dropbox/org/"
+(setq org-directory "~/Dropbox/org/") ;; must be set BEFORE org has loaded
+(after! org (setq
       org-ellipsis " ▼ "
       org-bullets-bullet-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
+(add-hook 'org-mode-hook #'turn-off-smartparens-mode)
 (add-hook 'before-save-hook 'time-stamp)
 (setq org-agenda-files "~/Dropbox/org/agenda-files")
 #+END_SRC
+
 
 *** Autolist
 The default list behaviour is a little annoying - this package is supposed to
@@ -208,7 +220,7 @@ everywhere - which is not what I want.
 **** DONE Fix display of emphasised text by hiding markers
 - Fix the display of /emphasised text/
 #+BEGIN_SRC emacs-lisp
-(setq org-hide-emphasis-markers nil)
+(setq org-hide-emphasis-markers t)
 #+END_SRC
 **** TODO org-fancy-priorities
 I have installed this. It will let me replace the [#A] mark with an icon
@@ -313,6 +325,13 @@ fix the tab visibility cycling
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 #+END_SRC
 ** Org-Journal adjustments
+*** Caching
+This is supposed to speed up calendar entries
+#+BEGIN_SRC emacs-lisp
+(setq org-journal-calendar-entries t)
+#+END_SRC
+
+*** Bindings
 As per [[https://www.rousette.org.uk/archives/doom-emacs-tweaks-org-journal-and-org-super-agenda/][BSAG » Doom Emacs tweaks: Org Journal and Super Agenda]]
 #+BEGIN_SRC emacs-lisp
 ;; in ~/.doom.d/+bindings.el
@@ -344,6 +363,29 @@ As per [[https://www.rousette.org.uk/archives/doom-emacs-tweaks-org-journal-and-
  "m" #'org-journal-search-calendar-month
  "y" #'org-journal-search-calendar-year)
 #+END_SRC
+** Org-Roam
+This should be the same on all my machines
+Except that it won't work for the last two - they will need to be in the +local config.
+#+BEGIN_SRC emacs-lisp
+(setq deft-directory "~/Dropbox/org/roam/")
+(setq org-roam-directory "~/Dropbox/org/roam/")
+(setq org-roam-graph-executable "/usr/local/bin/dot"
+      org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox")
+#+END_SRC
+*** Roam Capture templates
+Can't find a good example of this yet
+#+BEGIN_SRC emacs-lisp
+(setq org-roam-capture-templates
+      '(("d" "default" plain (function org-roam--capture-get-point)
+          "%?"
+          :file-name "%<%Y%m%d%H%M%S>-${slug}"
+          :head "#+TITLE: ${title}\n:CONTEXT:\n%a\n%F\n:END:\n\n"
+          :unnarrowed t)))
+#+END_SRC
+
+#+RESULTS:
+| d | default | plain | (function org-roam--capture-get-point) | %? | :file-name | %<%Y%m%d%H%M%S>-${slug} | :head | #+TITLE: ${title} |
+
 
 ** Clojure
 Paredit mode is not enabled for clojure* by default.
@@ -359,9 +401,49 @@ Enable it for clojure modes, then use which-key to get the correct key bindings
 
 #+RESULTS:
 | paredit-mode |
+** TODO Fixes for company-mode in CIDER
+Where is the ISSUE for this?
+There is a simpler solution - REPLACE THIS
+#+BEGIN_SRC emacs-lisp
+(after! cider
+  (add-hook 'company-completion-started-hook 'ans/set-company-maps)
+  (add-hook 'company-completion-finished-hook 'ans/unset-company-maps)
+  (add-hook 'company-completion-cancelled-hook 'ans/unset-company-maps)
+
+  (defun ans/unset-company-maps (&rest unused)
+    "Set default mappings (outside of company).
+    Arguments (UNUSED) are ignored."
+    (general-def
+      :states 'insert
+      :keymaps 'override
+      "<up>" nil
+      "<down>" nil
+      "C-j" nil
+      "C-k" nil
+      "RET" nil
+      [return] nil))
+
+  (defun ans/set-company-maps (&rest unused)
+    "Set maps for when you're inside company completion.
+    Arguments (UNUSED) are ignored."
+    (general-def
+      :states 'insert
+      :keymaps 'override
+      "<down>" 'company-select-next
+      "<up>" 'company-select-previous
+      "C-j" 'company-select-next
+      "C-k" 'company-select-previous
+      "RET" 'company-complete
+      [return] 'company-complete)))
+#+END_SRC
+
+#+RESULTS:
+: ans/set-company-maps
+
 
 ** Local config
 Add local config at the end (but it makes no difference)
+[[file:+local.el::;;; -*- lexical-binding: t; -*-][Local setup]]
 #+BEGIN_SRC emacs-lisp
 (load! "+local")
 #+END_SRC

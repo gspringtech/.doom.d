@@ -67,6 +67,6 @@
 ;; (package! deadgrep)
 ;; (package! metrics-tracker)
 (package! org-web-tools)
-(package! org-journal)
+;; (package! org-journal)
 (package! org-autolist)
 ;; (package! evil-tutor)
