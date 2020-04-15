@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-04-11 10:15:10 alisterpillow>
+Time-stamp: <2020-04-15 10:23:36 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * Original Config file
 :PROPERTIES:
@@ -19,7 +19,7 @@ This is the original conf file
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "Alister Pillow"
-      user-mail-address "alisterhp@mac.com")
+      user-mail-address "gspringtech@gmail.com")
 #+END_SRC
 
 ** Default font
@@ -47,7 +47,7 @@ The +local file will not be added to VC.
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
-(setq doom-theme 'doom-opera) ;; This has a better separation between inactive and active buffers.
+(setq doom-theme 'doom-monokai-spectrum)
 ;; (setq doom-theme 'doom-gruvbox)
 ;;(setq doom-theme 'doom-acario-light) ;; light - too white. SRC blocks not well marked
 ;; tried these
@@ -390,55 +390,122 @@ Can't find a good example of this yet
 ** Clojure
 Paredit mode is not enabled for clojure* by default.
 Enable it for clojure modes, then use which-key to get the correct key bindings
+Changed my mind - disable paredit and use smartparens
 #+BEGIN_SRC emacs-lisp
 (add-hook! 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
-(add-hook! 'cider-repl-mode-hook #'paredit-mode)
 (add-hook! 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
-(add-hook! 'clojure-mode-hook #'paredit-mode)
-(add-hook! 'clojurec-mode-hook #'paredit-mode)
-(add-hook! 'clojurescript-mode-hook #'paredit-mode)
 #+END_SRC
 
-#+RESULTS:
-| paredit-mode |
-** TODO Fixes for company-mode in CIDER
+** Fixes for company-mode in CIDER
 Where is the ISSUE for this?
 There is a simpler solution - REPLACE THIS
 #+BEGIN_SRC emacs-lisp
-(after! cider
-  (add-hook 'company-completion-started-hook 'ans/set-company-maps)
-  (add-hook 'company-completion-finished-hook 'ans/unset-company-maps)
-  (add-hook 'company-completion-cancelled-hook 'ans/unset-company-maps)
-
-  (defun ans/unset-company-maps (&rest unused)
-    "Set default mappings (outside of company).
-    Arguments (UNUSED) are ignored."
-    (general-def
-      :states 'insert
-      :keymaps 'override
-      "<up>" nil
-      "<down>" nil
-      "C-j" nil
-      "C-k" nil
-      "RET" nil
-      [return] nil))
-
-  (defun ans/set-company-maps (&rest unused)
-    "Set maps for when you're inside company completion.
-    Arguments (UNUSED) are ignored."
-    (general-def
-      :states 'insert
-      :keymaps 'override
-      "<down>" 'company-select-next
-      "<up>" 'company-select-previous
-      "C-j" 'company-select-next
-      "C-k" 'company-select-previous
-      "RET" 'company-complete
-      [return] 'company-complete)))
+(add-hook! cider-repl-mode #'evil-normalize-keymaps)
 #+END_SRC
 
 #+RESULTS:
 : ans/set-company-maps
+
+** Smartparens
+Blindly copied from https://matthewbauer.us/bauer/
+#+BEGIN_SRC emacs-lisp
+(use-package smartparens
+  :preface
+  (autoload 'sp-local-pair "smartparens")
+  (autoload 'sp-local-tag  "smartparens")
+  :hook (((emacs-lisp-mode
+           inferior-emacs-lisp-mode
+           ielm-mode
+           lisp-mode
+           inferior-lisp-mode
+           lisp-interaction-mode
+           slime-repl-mode
+           eval-expression-minibuffer-setup) .
+          smartparens-strict-mode)
+         ((emacs-lisp-mode
+           inferior-emacs-lisp-mode
+           ielm-mode
+           lisp-mode
+           inferior-lisp-mode
+           lisp-interaction-mode
+           slime-repl-mode
+           clojure-mode
+           org-mode) . show-smartparens-mode)
+         ((web-mode
+           html-mode) . smartparens-mode))
+  :bind (:map smartparens-mode-map
+         ("C-M-f" . sp-forward-sexp) ;; navigation
+         ("C-M-b" . sp-backward-sexp)
+         ("C-M-u" . sp-backward-up-sexp)
+         ("C-M-d" . sp-down-sexp)
+         ("C-M-p" . sp-backward-down-sexp)
+         ("C-M-n" . sp-up-sexp)
+         ("M-s" . sp-splice-sexp) ;; depth-changing commands
+         ("M-<up>" . sp-splice-sexp-killing-backward)
+         ("M-<down>" . sp-splice-sexp-killing-forward)
+         ("M-r" . sp-splice-sexp-killing-around)
+         ("M-(" . sp-wrap-round)
+         ("C-)" . sp-forward-slurp-sexp) ;; barf/slurp
+         ("C-<right>" . sp-forward-slurp-sexp)
+         ("C-}" . sp-forward-barf-sexp)
+         ("C-<left>" . sp-forward-barf-sexp)
+         ("C-(" . sp-backward-slurp-sexp)
+         ("C-M-<left>" . sp-backward-slurp-sexp)
+         ("C-{" . sp-backward-barf-sexp)
+         ("C-M-<right>" . sp-backward-barf-sexp)
+         ("M-S" . sp-split-sexp) ;; misc
+         ("M-j" . sp-join-sexp))
+  :config
+  (autoload 'sp-with-modes "smartparens" "" nil 'macro)
+  (use-package smartparens-config
+    :ensure nil
+    :demand)
+
+  (sp-with-modes 'org-mode
+    (sp-local-pair "*" "*"
+      :actions '(insert wrap)
+      :unless '(sp-point-after-word-p sp-point-at-bol-p)
+      :wrap "C-*" :skip-match 'sp--org-skip-asterisk)
+    (sp-local-pair "_" "_" :unless '(sp-point-after-word-p)
+                           :wrap "C-_")
+    (sp-local-pair "/" "/" :unless '(sp-point-after-word-p)
+                   :post-handlers '(("[d1]" "SPC")))
+    (sp-local-pair "~" "~" :unless '(sp-point-after-word-p)
+                   :post-handlers '(("[d1]" "SPC")))
+    (sp-local-pair "=" "=" :unless '(sp-point-after-word-p)
+                   :post-handlers '(("[d1]" "SPC")))
+    (sp-local-pair "«" "»"))
+
+  (sp-with-modes '(java-mode c++-mode)
+    (sp-local-pair "{" nil
+                   :post-handlers '(("||\n[i]" "RET")))
+    (sp-local-pair "/*" "*/"
+                   :post-handlers '((" | " "SPC")
+                                    ("* ||\n[i]" "RET"))))
+
+  (sp-with-modes '(markdown-mode gfm-mode rst-mode)
+    (sp-local-pair "*" "*" :bind "C-*")
+    (sp-local-tag "2" "**" "**")
+    (sp-local-tag "s" "```scheme" "```")
+    (sp-local-tag "<"  "<_>" "</_>"
+                  :transform 'sp-match-sgml-tags))
+
+  (sp-local-pair 'emacs-lisp-mode "`" nil
+                 :when '(sp-in-string-p))
+  (sp-local-pair 'clojure-mode "`" "`"
+                 :when '(sp-in-string-p))
+  (sp-local-pair 'minibuffer-inactive-mode "'" nil
+                 :actions nil)
+
+  (sp-with-modes 'nix-mode
+    (sp-local-pair "'" "'"
+                   :unless '(sp-in-comment-p
+                             sp-in-string-quotes-p))
+    (sp-local-pair "\"" "\"")
+    (sp-local-pair "''" "''"
+                   :unless '(sp-in-comment-p
+                             sp-in-string-quotes-p))))
+#+END_SRC
 
 
 ** Local config
