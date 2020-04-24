@@ -54,6 +54,7 @@
 ;; (package! helm-org-rifle)
 (package! org-ql)
 (package! org-super-agenda)
+(package! minions)
 ;; (package! elfeed)
 ;; (package! elfeed-org)
 ;; (package! org-fancy-priorities)

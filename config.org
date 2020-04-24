@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-04-15 10:23:36 alisterpillow>
+Time-stamp: <2020-04-24 16:52:53 alister>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * Original Config file
 :PROPERTIES:
@@ -76,7 +76,8 @@ they are implemented.
 #+BEGIN_SRC emacs-lisp
 ;; If you want to change the style of line numbers, change this to `relative' or
 ;; `nil' to disable it:
-(setq display-line-numbers-type nil)
+(setq display-line-numbers-type nil
+      company-idle-delay nil)
 #+END_SRC
 * My settings
 :PROPERTIES:
@@ -134,13 +135,17 @@ larger. Emacs doesn't seem to have a 'maximize-height' function, so this is it..
 
 Very annoying to find that in Ubuntu, when the frame is maximised in height, it
 then automatically becomes fully maximised. What a drag.
+*** Undo
+Undo can be brutal
+#+BEGIN_SRC emacs-lisp
+(setq evil-want-fine-undo t)
+#+END_SRC
 *** Normal state
 Always switch to evil-normal-state when leaving emacs
 Otherwise I have to look to see what state I'm in.
 #+BEGIN_SRC emacs-lisp
 (add-hook 'focus-out-hook #'evil-normal-state)
 #+END_SRC
-
 
 *** Keys
 Copied some from NMartin's setup
@@ -158,6 +163,12 @@ Copied some from NMartin's setup
 
     )
 #+END_SRC
+*** from Henrik
+Move the cursor to the new window
+#+BEGIN_SRC emacs-lisp
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+#+END_SRC
 ** Org
 :PROPERTIES:
 :CATEGORY: ORG
@@ -169,8 +180,9 @@ https://github.com/hlissner/doom-emacs/issues/576
 ;; If you intend to use org, it is recommended you change this!
 (setq org-directory "~/Dropbox/org/") ;; must be set BEFORE org has loaded
 (after! org (setq
-      org-ellipsis " ▼ "
-      org-bullets-bullet-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")))
+             org-ellipsis " ▼ "
+             org-bullets-bullet-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
+             org-confirm-babel-evaluate t))
 (add-hook 'org-mode-hook #'turn-off-smartparens-mode)
 (add-hook 'before-save-hook 'time-stamp)
 (setq org-agenda-files "~/Dropbox/org/agenda-files")
@@ -201,10 +213,7 @@ I like to have big headings
     (set-face-attribute 'org-level-3 nil :height 1.2 :background nil :weight 'normal)
     (set-face-attribute 'org-level-4 nil :height 1.0 :background nil :weight 'semi-bold)
     (set-face-attribute 'org-link nil    :height 1.0 :background nil :weight 'normal)
-    (setq org-journal-dir "~/Dropbox/org/journal"
-          org-journal-date-format "%A, %d %B %Y"
-          org-journal-encrypt-journal t
-          org-journal-file-type 'monthly))
+    )
 
 #+END_SRC
 
@@ -328,7 +337,12 @@ fix the tab visibility cycling
 *** Caching
 This is supposed to speed up calendar entries
 #+BEGIN_SRC emacs-lisp
-(setq org-journal-calendar-entries t)
+(after! org-journal
+  (setq org-journal-calendar-entries t
+        org-journal-dir "~/Dropbox/org/journal"
+        org-journal-date-format "%A, %d %B %Y"
+        org-journal-encrypt-journal t
+        org-journal-file-type 'monthly))
 #+END_SRC
 
 *** Bindings
@@ -368,9 +382,11 @@ This should be the same on all my machines
 Except that it won't work for the last two - they will need to be in the +local config.
 #+BEGIN_SRC emacs-lisp
 (setq deft-directory "~/Dropbox/org/roam/")
+(setq org-roam-db-location "~/.doom.d/org-roam.db")
 (setq org-roam-directory "~/Dropbox/org/roam/")
 (setq org-roam-graph-executable "/usr/local/bin/dot"
-      org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox")
+      ;; org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"
+      )
 #+END_SRC
 *** Roam Capture templates
 Can't find a good example of this yet
@@ -382,11 +398,6 @@ Can't find a good example of this yet
           :head "#+TITLE: ${title}\n:CONTEXT:\n%a\n%F\n:END:\n\n"
           :unnarrowed t)))
 #+END_SRC
-
-#+RESULTS:
-| d | default | plain | (function org-roam--capture-get-point) | %? | :file-name | %<%Y%m%d%H%M%S>-${slug} | :head | #+TITLE: ${title} |
-
-
 ** Clojure
 Paredit mode is not enabled for clojure* by default.
 Enable it for clojure modes, then use which-key to get the correct key bindings
@@ -408,7 +419,7 @@ There is a simpler solution - REPLACE THIS
 
 ** Smartparens
 Blindly copied from https://matthewbauer.us/bauer/
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (use-package smartparens
   :preface
   (autoload 'sp-local-pair "smartparens")
