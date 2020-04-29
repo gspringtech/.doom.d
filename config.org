@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-04-24 16:52:53 alister>
+Time-stamp: <2020-04-28 11:47:00 alister>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * Original Config file
 :PROPERTIES:
@@ -398,6 +398,13 @@ Can't find a good example of this yet
           :head "#+TITLE: ${title}\n:CONTEXT:\n%a\n%F\n:END:\n\n"
           :unnarrowed t)))
 #+END_SRC
+** Org-noter
+#+BEGIN_SRC emacs-lisp
+(map!
+ (:map pdf-view-mode-map
+       :n "i" #'org-noter-insert-note))
+#+END_SRC
+
 ** Clojure
 Paredit mode is not enabled for clojure* by default.
 Enable it for clojure modes, then use which-key to get the correct key bindings
