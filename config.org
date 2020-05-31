@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-04-28 11:47:00 alister>
+Time-stamp: <2020-05-31 14:09:05 alister>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * Original Config file
 :PROPERTIES:
@@ -337,12 +337,13 @@ fix the tab visibility cycling
 *** Caching
 This is supposed to speed up calendar entries
 #+BEGIN_SRC emacs-lisp
-(after! org-journal
+(after! org
   (setq org-journal-calendar-entries t
         org-journal-dir "~/Dropbox/org/journal"
         org-journal-date-format "%A, %d %B %Y"
+        org-journal-enable-cache t
         org-journal-encrypt-journal t
-        org-journal-file-type 'monthly))
+        org-journal-file-type 'yearly))
 #+END_SRC
 
 *** Bindings
