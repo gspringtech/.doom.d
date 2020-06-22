@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-06-22 13:26:21 alisterpillow>
+Time-stamp: <2020-06-22 13:41:49 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * Original Config file
 :PROPERTIES:
@@ -179,7 +179,8 @@ My whole Doom adventure was sparked by NMartin's work. See [[https://github.com/
 https://github.com/hlissner/doom-emacs/issues/576
 #+BEGIN_SRC emacs-lisp
 ;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/Dropbox/org/") ;; must be set BEFORE org has loaded
+(setq org-directory "~/Dropbox/org/"      ;; must be set BEFORE org has loaded
+      org-capture-todo-file "inbox.org")
 (after! org (setq
              org-ellipsis " ▼ "
              org-bullets-bullet-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
