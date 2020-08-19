@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-06-22 13:41:49 alisterpillow>
+Time-stamp: <2020-08-13 13:16:45 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * Original Config file
 :PROPERTIES:
@@ -48,7 +48,8 @@ The +local file will not be added to VC.
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. These are the defaults.
 ;; (setq doom-theme 'doom-monokai-spectrum)
-(setq doom-theme 'doom-palenight)
+;; (setq doom-theme 'doom-palenight)
+(setq doom-theme 'doom-laserwave)
 ;; (setq doom-theme 'doom-gruvbox)
 ;;(setq doom-theme 'doom-acario-light) ;; light - too white. SRC blocks not well marked
 ;; tried these
@@ -389,18 +390,26 @@ Except that it won't work for the last two - they will need to be in the +local 
 (setq org-roam-db-location "~/.doom.d/org-roam.db")
 (setq org-roam-directory "~/Dropbox/org/roam/")
 (setq org-roam-graph-executable "/usr/local/bin/dot"
-      ;; org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox"
       )
 #+END_SRC
 *** Roam Capture templates
 Can't find a good example of this yet
 #+BEGIN_SRC emacs-lisp
 (setq org-roam-capture-templates
-      '(("d" "default" plain (function org-roam--capture-get-point)
-          "%?"
-          :file-name "%<%Y%m%d%H%M%S>-${slug}"
-          :head "#+TITLE: ${title}\n:CONTEXT:\n%a\n%F\n:END:\n\n"
-          :unnarrowed t)))
+      '(
+        ("r" "ref" plain (function org-roam-capture--get-point)
+               "%?"
+               :file-name "websites/${slug}"
+               :head "#+TITLE: ${title}
+    ,#+ROAM_KEY: ${ref}
+    - source :: ${ref}"
+               :unnarrowed t)
+        ("d" "default" plain (function org-roam--capture-get-point)
+         "%?"
+         :file-name "%<%Y%m%d%H%M%S>-${slug}"
+         :head "#+TITLE: ${title}\n:CONTEXT:\n%a\n%F\n:END:\n\n"
+         :unnarrowed t)
+        ))
 #+END_SRC
 ** Org-noter
 #+BEGIN_SRC emacs-lisp
