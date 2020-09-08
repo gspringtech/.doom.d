@@ -2,8 +2,23 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-08-13 13:16:45 alisterpillow>
+Time-stamp: <2020-09-08 13:43:16 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
+* How to edit this file
+** Keybindings
+The functions are:
+- define-key
+- global-set-key
+- map!
+- undefine-key!
+- define-key!
+
+*** Map!
+(map! state (e.g. :nvi for normal+visual+insert)
+(map! state :leader | :prefix (PREFIX . DESCRIPTION) - the doom leader key (usually m)
+Probably best to review [[https://github.com/hlissner/doom-emacs/blob/develop/modules/config/default/%2Bevil-bindings.el][doom-emacs/+evil-bindings.el at develop · hlissner/doom-emacs]]
+Also, use =SPC h f= for =map!=
+
 * Original Config file
 :PROPERTIES:
 :CATEGORY: DOOM
@@ -255,8 +270,13 @@ Also want a shortcut for creating a new journal entry - it's =SPC m j=
       :map org-mode-map
       (:prefix "g"
         :desc "Toggle subtree" "s" 'org-toggle-narrow-to-subtree)
+      (:prefix "l"
+        :desc "Org Mac Grab" "g" 'org-mac-grab-link)
       )
 #+END_SRC
+
+#+RESULTS:
+
 *** Agenda, tasks and tags
 It's important to be consistent because otherwise TODO-markers will not be
 recognised. I've decided to go with the default TODO markers
@@ -416,6 +436,8 @@ Can't find a good example of this yet
 (map!
  (:map pdf-view-mode-map
        :n "i" #'org-noter-insert-note))
+(setq org-noter-notes-search-path '("~/Dropbox"))
+(setq org-noter-default-notes-file-names '("my-ebooks.org"))
 #+END_SRC
 
 ** Clojure
