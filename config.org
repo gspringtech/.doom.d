@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-09-11 09:21:18 alisterpillow>
+Time-stamp: <2020-11-06 09:05:13 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -404,7 +404,7 @@ Except that it won't work for the last two - they will need to be in the +local 
 (setq org-roam-graph-executable "/usr/local/bin/dot"
       )
 (after! org
-  (set-company-backend! 'org-mode 'company-capf '(company-yasnippet company-org-roam company-elisp))
+  (set-company-backend! 'org-mode 'company-capf '(company-yasnippet  company-elisp))
   (setq company-idle-delay 0.25))
 #+END_SRC
 *** Roam Capture templates
@@ -442,7 +442,9 @@ Changed my mind - disable paredit and use smartparens
 #+BEGIN_SRC emacs-lisp
 (add-hook! 'cider-repl-mode-hook #'cider-company-enable-fuzzy-completion)
 (add-hook! 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
+(add-hook! 'evil-escape-inhibit-functions #'lispyville--lispy-keybindings-active-p)
 #+END_SRC
+
 
 ** Fixes for company-mode in CIDER
 Where is the ISSUE for this?
