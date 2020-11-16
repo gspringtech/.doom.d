@@ -71,3 +71,5 @@
 ;; (package! org-journal)
 (package! org-autolist)
 ;; (package! evil-tutor)
+(unpin! org-roam)
+(unpin! org-roam-server)
