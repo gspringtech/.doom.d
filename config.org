@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2020-11-14 10:12:38 alisterpillow>
+Time-stamp: <2021-02-26 13:47:05 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -493,6 +493,19 @@ There is a simpler solution - REPLACE THIS
 #+BEGIN_SRC emacs-lisp
 (add-hook! cider-repl-mode #'evil-normalize-keymaps)
 #+END_SRC
+
+** Compare init to latest
+#+begin_src emacs-lisp
+(defun doom/ediff-init-and-example ()
+  "ediff the current `init.el' with the example in doom-emacs-dir"
+  (interactive)
+  (ediff-files (concat doom-private-dir "init.el")
+               (concat doom-emacs-dir "init.example.el")))
+
+(define-key! help-map
+  "di"   #'doom/ediff-init-and-example
+  )
+#+end_src
 
 ** Local config
 Add local config at the end (but it makes no difference)
