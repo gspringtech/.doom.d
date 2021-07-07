@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2021-02-26 13:47:05 alisterpillow>
+Time-stamp: <2021-06-02 08:27:09 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -395,8 +395,7 @@ As per [[https://www.rousette.org.uk/archives/doom-emacs-tweaks-org-journal-and-
  "y" #'org-journal-search-calendar-year)
 #+END_SRC
 ** Org-Roam
-This should be the same on all my machines
-Except that it won't work for the last two - they will need to be in the +local config.
+This should be the same on all my machines Except that it won't work for the last two - they will need to be in the +local config.
 #+BEGIN_SRC emacs-lisp
 (setq deft-directory "~/Dropbox/org/roam/")
 (setq deft-strip-title-regexp
@@ -441,7 +440,7 @@ Also, I think that these Roam files should have timestamps (although that info i
 - source :: ${ref}"
          :unnarrowed t)
         ("d" "default" plain #'org-roam--capture-get-point
-         "%? \n\nContext: \[[%F]]\n"
+         "%? \n\n* Linked to\n- Context: \[[%F]]\n"
          :file-name "%<%Y%m%d%H%M%S>-${slug}"
          :head "#+title: ${title}\n"
          :unnarrowed t)))
@@ -466,6 +465,25 @@ It needs to be started like this:
 #+begin_src elisp :tangle no
 (org-roam-server-mode +1)
 #+end_src
+*** Toggle position of roam buffer
+
+#+begin_src emacs-lisp
+(defun toggle-org-roam-buffer-position ()
+  "Swap it from one side to the other"
+  (interactive)
+  (if (eq org-roam-buffer-position 'left)
+      (setq org-roam-buffer-position 'right)
+    (setq org-roam-buffer-position 'left))
+
+  (org-roam-buffer-deactivate)
+  (org-roam-buffer-activate))
+(map! :leader
+      (:prefix "t"
+       :n "o" #'toggle-org-roam-buffer-position))
+#+end_src
+
+#+RESULTS:
+: toggle-org-roam-buffer-position
 
 ** Org-noter
 #+BEGIN_SRC emacs-lisp
