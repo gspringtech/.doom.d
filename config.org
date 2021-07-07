@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2021-06-01 14:25:52 alisterpillow>
+Time-stamp: <2021-06-02 08:27:09 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -440,7 +440,7 @@ Also, I think that these Roam files should have timestamps (although that info i
 - source :: ${ref}"
          :unnarrowed t)
         ("d" "default" plain #'org-roam--capture-get-point
-         "%? \n\nContext: \[[%F]]\n"
+         "%? \n\n* Linked to\n- Context: \[[%F]]\n"
          :file-name "%<%Y%m%d%H%M%S>-${slug}"
          :head "#+title: ${title}\n"
          :unnarrowed t)))
