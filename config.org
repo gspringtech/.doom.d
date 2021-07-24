@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2021-06-02 08:27:09 alisterpillow>
+Time-stamp: <2021-07-24 11:07:15 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -64,7 +64,7 @@ The +local file will not be added to VC.
 ;; `load-theme' function. These are the defaults.
 ;; (setq doom-theme 'doom-monokai-spectrum)
 ;; (setq doom-theme 'doom-palenight)
-(setq doom-theme 'doom-laserwave)
+(setq doom-theme 'doom-snazzy)
 ;; (setq doom-theme 'doom-gruvbox)
 ;;(setq doom-theme 'doom-acario-light) ;; light - too white. SRC blocks not well marked
 ;; tried these
@@ -112,6 +112,17 @@ If it doesn't work, may need to delete =~/.emacs.d/.local/cache/projectile.*=
 #+BEGIN_SRC emacs-lisp
 (setq projectile-project-search-path '("~/Development"))
 #+END_SRC
+*** Treemacs
+Treemacs is opened with ~SPC o p~ but after using it to select a file you need to use ~treemacs-select-window~ to get back.
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix "o"
+       :g "s" #'treemacs-select-window))
+#+end_src
+
+#+RESULTS:
+: treemacs-select-window
+
 ** General settings
 *** Functions
 When emacs starts, the frame is very small and I've been dragging to make it
@@ -417,8 +428,7 @@ This should be the same on all my machines Except that it won't work for the las
            "\\)"))
 (setq org-roam-db-location "~/.doom.d/org-roam.db")
 (setq org-roam-directory "~/Dropbox/org/roam/")
-(setq org-roam-graph-executable "/usr/local/bin/dot"
-      )
+;(setq org-roam-graph-executable "/usr/local/bin/dot"        )
 (after! org
   (set-company-backend! 'org-mode 'company-capf '(company-yasnippet  company-elisp))
   (setq company-idle-delay 0.25))
@@ -448,7 +458,7 @@ Also, I think that these Roam files should have timestamps (although that info i
 *** org-roam-server
 See [[https://github.com/org-roam/org-roam-server][org-roam/org-roam-server: A Web Application to Visualize the Org-Roam Database]]
 From  https://github.com/hlissner/doom-emacs/issues/3959
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package! org-roam-server
   :after org-roam
   :config
