@@ -73,3 +73,4 @@
 ;; (package! evil-tutor)
 ;; (unpin! org-roam)
 ;; (unpin! org-roam-server)
+(package! map :pin "bb50dba")
