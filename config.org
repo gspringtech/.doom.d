@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2021-08-30 08:22:42 alisterpillow>
+Time-stamp: <2022-02-28 16:36:20 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -269,13 +269,14 @@ My first attempt at adding a key binding - and /it works!/
 The key path for Toggle Subtree is =SPC m g s= and it works perfectly.
 Also want a shortcut for creating a new journal entry - it's =SPC m j=
 #+BEGIN_SRC emacs-lisp
-(map! :localleader
+(after! org
+  (map! :localleader
       :map org-mode-map
       (:prefix "g"
         :desc "Toggle subtree" "s" 'org-toggle-narrow-to-subtree)
       (:prefix "l"
-        :desc "Org Mac Grab" "g" 'org-mac-grab-link)
-      )
+        :desc "Org Mac Grab" "g" #'org-mac-grab-link)
+      ) )
 #+END_SRC
 
 #+RESULTS:
@@ -409,9 +410,14 @@ As per [[https://www.rousette.org.uk/archives/doom-emacs-tweaks-org-journal-and-
 #+begin_src elisp
 (setq org-roam-db-location "~/.doom.d/org-roam2.db")
 (setq org-roam-directory "~/Dropbox/roam2/")
+
+(use-package! websocket
+    :after org-roam)
+
 #+end_src
 
 This should be the same on all my machines Except that it won't work for the last two - they will need to be in the +local config.
+NOT USED - old
 #+BEGIN_SRC emacs-lisp :tangle no
 (setq deft-directory "~/Dropbox/roam/")
 (setq deft-strip-title-regexp
@@ -444,7 +450,7 @@ This should be the same on all my machines Except that it won't work for the las
 Can't find a good example of this yet
 My first cut includes a :CONTEXT: property which has been confusing Deft.
 Also, I think that these Roam files should have timestamps (although that info is managed by the filesystem.)
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (setq org-roam-capture-templates
       '(
         ("r" "ref" plain #'org-roam-capture--get-point

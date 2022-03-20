@@ -1,3 +1,5 @@
 /config.el
 /+local.el
 /org-roam.db
+/org-roam2.db
+/custom.el
