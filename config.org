@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2022-02-28 16:36:20 alisterpillow>
+Time-stamp: <2022-04-22 08:06:11 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -124,6 +124,12 @@ Treemacs is opened with ~SPC o p~ but after using it to select a file you need t
 : treemacs-select-window
 
 ** General settings
+*** File modes
+Arduino ino files in c++ mode
+#+begin_src elisp
+(add-to-list 'auto-mode-alist '("\\.ino\\'" . c++-mode))
+#+end_src
+
 *** Functions
 When emacs starts, the frame is very small and I've been dragging to make it
 larger. Emacs doesn't seem to have a 'maximize-height' function, so this is it...
