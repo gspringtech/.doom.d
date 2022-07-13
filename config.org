@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2022-04-22 08:06:11 alisterpillow>
+Time-stamp: <2022-07-13 13:18:20 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -204,6 +204,12 @@ Move the cursor to the new window
 (setq evil-split-window-below t
       evil-vsplit-window-right t)
 #+END_SRC
+*** Which-keys and vertico
+#+begin_src emacs-lisp
+(after! vertico
+      (setq which-key-use-C-h-commands t))
+#+end_src
+
 ** Org
 :PROPERTIES:
 :CATEGORY: ORG
