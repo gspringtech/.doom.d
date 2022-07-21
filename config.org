@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2022-07-13 13:18:20 alisterpillow>
+Time-stamp: <2022-07-21 10:25:37 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -219,7 +219,7 @@ My whole Doom adventure was sparked by NMartin's work. See [[https://github.com/
 https://github.com/hlissner/doom-emacs/issues/576
 #+BEGIN_SRC emacs-lisp
 ;; If you intend to use org, it is recommended you change this!
-(setq org-directory "~/Dropbox/org/"      ;; must be set BEFORE org has loaded
+(setq org-directory "~/org/"      ;; must be set BEFORE org has loaded
       org-capture-todo-file "inbox.org")
 (after! org (setq
              org-ellipsis " ▼ "
@@ -228,7 +228,7 @@ https://github.com/hlissner/doom-emacs/issues/576
              org-confirm-babel-evaluate t))
 (add-hook 'org-mode-hook #'turn-off-smartparens-mode)
 (add-hook 'before-save-hook 'time-stamp)
-(setq org-agenda-files "~/Dropbox/org/agenda-files")
+(setq org-agenda-files "~/org/agenda-files")
 #+END_SRC
 
 
@@ -379,7 +379,7 @@ This is supposed to speed up calendar entries
 #+BEGIN_SRC emacs-lisp
 (after! org
   (setq org-journal-calendar-entries t
-        org-journal-dir "~/Dropbox/org/journal"
+        org-journal-dir "~/journal"
         org-journal-date-format "%A, %d %B %Y"
         org-journal-enable-cache t
         org-journal-encrypt-journal t
@@ -421,7 +421,7 @@ As per [[https://www.rousette.org.uk/archives/doom-emacs-tweaks-org-journal-and-
 ** Org-Roam
 #+begin_src elisp
 (setq org-roam-db-location "~/.doom.d/org-roam2.db")
-(setq org-roam-directory "~/Dropbox/roam2/")
+(setq org-roam-directory "~/roam2/")
 
 (use-package! websocket
     :after org-roam)
@@ -431,7 +431,6 @@ As per [[https://www.rousette.org.uk/archives/doom-emacs-tweaks-org-journal-and-
 This should be the same on all my machines Except that it won't work for the last two - they will need to be in the +local config.
 NOT USED - old
 #+BEGIN_SRC emacs-lisp :tangle no
-(setq deft-directory "~/Dropbox/roam/")
 (setq deft-strip-title-regexp
       (concat "\\(?:"
               "^%+"                     ; line beg with %
@@ -450,7 +449,6 @@ NOT USED - old
            "\\|:CONTEXT:\n\\(.+\n\\)+:END:\n"
            "\\)"))
 (setq org-roam-db-location "~/.doom.d/org-roam.db")
-(setq org-roam-directory "~/Dropbox/roam/")
 ;(setq org-roam-graph-executable "/usr/local/bin/dot"        )
 (after! org
   (set-company-backend! 'org-mode 'company-capf '(company-yasnippet  company-elisp))
