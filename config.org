@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2022-07-21 10:25:37 alisterpillow>
+Time-stamp: <2022-07-27 11:34:55 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -287,11 +287,10 @@ Also want a shortcut for creating a new journal entry - it's =SPC m j=
       (:prefix "g"
         :desc "Toggle subtree" "s" 'org-toggle-narrow-to-subtree)
       (:prefix "l"
-        :desc "Org Mac Grab" "g" #'org-mac-grab-link)
-      ) )
+        :desc "Org Mac Grab" "g" #'org-mac-link-get-link)
+      )
+  )
 #+END_SRC
-
-#+RESULTS:
 
 *** Agenda, tasks and tags
 It's important to be consistent because otherwise TODO-markers will not be
