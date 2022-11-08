@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2022-07-27 11:34:55 alisterpillow>
+Time-stamp: <2022-11-08 22:26:34 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -372,6 +372,27 @@ fix the tab visibility cycling
 (after! evil-org
   (remove-hook 'org-tab-first-hook #'+org-cycle-only-current-subtree-h))
 #+END_SRC
+**** Auto-insert date-stamp when creating a heading
+From StackExchange : https://emacs.stackexchange.com/questions/72147/org-mode-adding-creation-date-property-upon-heading-creation
+#+begin_src emacs-lisp
+ (defun set-creation-date-heading-property ()
+      (org-set-property "CREATED" (format-time-string "[%Y-%m-%d %T]")))
+
+    (defun my-org-mode-date-heading-on ()
+      "Turn on heading creation date property"
+      (interactive)
+      (add-hook 'org-insert-heading-hook #'set-creation-date-heading-property))
+
+    (defun my-org-mode-date-heading-off ()
+      "Turn off heading creation date property"
+      (interactive)
+      (remove-hook 'org-insert-heading-hook #'set-creation-date-heading-property))
+
+#+end_src
+
+#+RESULTS:
+: my-org-mode-date-heading-off
+
 ** Org-Journal adjustments
 *** Caching
 This is supposed to speed up calendar entries
