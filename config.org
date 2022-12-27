@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2022-11-08 22:26:34 alisterpillow>
+Time-stamp: <2022-12-28 08:23:16 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -64,7 +64,8 @@ The +local file will not be added to VC.
 ;; `load-theme' function. These are the defaults.
 ;; (setq doom-theme 'doom-monokai-spectrum)
 ;; (setq doom-theme 'doom-palenight)
-(setq doom-theme 'doom-snazzy)
+(setq doom-theme 'doom-acario-dark)
+;; (setq doom-theme 'doom-snazzy)
 ;; (setq doom-theme 'doom-gruvbox)
 ;;(setq doom-theme 'doom-acario-light) ;; light - too white. SRC blocks not well marked
 ;; tried these
