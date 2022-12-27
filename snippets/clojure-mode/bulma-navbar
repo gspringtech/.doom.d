@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+# name: bulma-navbar
+# uuid: tdbg.com.au/clojurescript/bulma/navbar
+# key: bulma-nav
+# condition: t
+# --
+[:nav.navbar
+        [:div.navbar-brand
+         [:a.navbar-item.is-tab {:on-click #(re-frame/dispatch [::events/navigate :home])} "Recordings"]
+         [:a.navbar-item.is-tab {:on-click #(re-frame/dispatch [::events/navigate :flex])}
+          "Help"]
+         [:a.navbar-item.is-tab {:on-click #(re-frame/dispatch [::events/navigate :about])}
+          "About"]
+         ;; Uncomment if a more extensive nav is required
+         ;;
+         ;; [:a
+         ;;  {:class (if @menu-is-active "navbar-burger is-active" "navbar-burger")
+         ;;   :on-click #(swap! menu-is-active not)
+         ;;   :role :button :data-target "navbarMainMenu"}
+         ;;  [:span {:aria-hidden :true}]
+         ;;  [:span {:aria-hidden :true}]
+         ;;  [:span {:aria-hidden :true}]]
+         ]
+        ;; [:div#navbarMainMenu {:class (if @menu-is-active "navbar-menu is-active" "navbar-menu")}
+        ;;  [:div.navbar-start]
+        ;;  [:div.navbar-end]
+        ;;  ]
+        ]

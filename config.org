@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2022-12-28 08:23:16 alisterpillow>
+Time-stamp: <2022-12-28 09:50:08 alister>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -199,6 +199,17 @@ Copied some from NMartin's setup
 
     )
 #+END_SRC
+*** Secrets in pass
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix "o"
+       :desc "c for secrets"
+               :n "c" #'pass ))
+#+end_src
+
+#+RESULTS:
+: pass
+
 *** from Henrik
 Move the cursor to the new window
 #+BEGIN_SRC emacs-lisp

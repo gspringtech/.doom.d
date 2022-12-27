@@ -43,10 +43,10 @@
        ;;tabs              ; a tab bar for Emacs
        (treemacs +lsp)              ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
-       vc-gutter        ; vcs diff in the fringe
-       vi-tilde-fringe  ; fringe tildes to mark beyond EOB
-       window-select    ; visually switch windows
-       workspaces       ; tab emulation, persistence & separate workspaces
+       (vc-gutter +pretty) ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
        ;;zen               ; distraction-free coding or writing
 
        :editor
@@ -107,6 +107,7 @@
        ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        ;;tmux              ; an API for interacting with tmux
+       tree-sitter       ; syntax and parsing, sitting in a tree...
        ;;upload            ; map local to remote projects via ssh/ftp
 
        :os
