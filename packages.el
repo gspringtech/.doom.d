@@ -50,6 +50,7 @@
 ;; This is required for some packages whose default branch isn't 'master' (which
 ;; our package manager can't deal with; see raxod502/straight.el#279)
 ;(package! builtin-package :recipe (:branch "develop"))
+(package! pinentry)
 (unpin! org-journal)
 ;; (package! helm-org-rifle)
 (package! org-ql)
@@ -79,3 +80,4 @@
 (package! mermaid-mode)
 (package! printing)
 (package! org-mac-link)
+(package! fira-code-mode)

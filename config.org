@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2022-12-28 09:50:08 alister>
+Time-stamp: <2024-08-19 10:08:04 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -64,7 +64,7 @@ The +local file will not be added to VC.
 ;; `load-theme' function. These are the defaults.
 ;; (setq doom-theme 'doom-monokai-spectrum)
 ;; (setq doom-theme 'doom-palenight)
-(setq doom-theme 'doom-acario-dark)
+(setq doom-theme 'doom-rouge)
 ;; (setq doom-theme 'doom-snazzy)
 ;; (setq doom-theme 'doom-gruvbox)
 ;;(setq doom-theme 'doom-acario-light) ;; light - too white. SRC blocks not well marked
@@ -196,9 +196,15 @@ Copied some from NMartin's setup
         :n "q" #'org-ql-search)
       (:prefix "t"
         :n "s" #'org-toggle-narrow-to-subtree)
+      (:prefix "i"
+               :n "d" #'evil-insert-digraph)
 
     )
 #+END_SRC
+
+#+RESULTS:
+: evil-insert-digraph
+
 *** Secrets in pass
 #+begin_src emacs-lisp
 (map! :leader
@@ -406,6 +412,13 @@ From StackExchange : https://emacs.stackexchange.com/questions/72147/org-mode-ad
 : my-org-mode-date-heading-off
 
 ** Org-Journal adjustments
+*** Fix for gpg 2.4 hanging - downgrade to 2.2
+#+begin_src emacs-lisp
+(custom-set-variables
+  '(epg-gpg-program "/opt/homebrew/opt/gnupg@2.2/bin/gpg")
+)
+#+end_src
+
 *** Caching
 This is supposed to speed up calendar entries
 #+BEGIN_SRC emacs-lisp
@@ -508,6 +521,24 @@ Also, I think that these Roam files should have timestamps (although that info i
          :head "#+title: ${title}\n"
          :unnarrowed t)))
 #+END_SRC
+**** another attempt
+from SystemCrafters [[https://systemcrafters.net/build-a-second-brain-in-emacs/capturing-notes-efficiently/][Capturing Notes Efficiently with Org Roam - System Crafters]]
+#+begin_src emacs-lisp
+(setq org-roam-capture-templates
+      '(("d" "default" plain
+         "%?"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+         :unnarrowed t)
+        ("b" "book notes" plain
+         "\n* Source\n\nAuthor: %^{Author}\nTitle: ${title}\nYear: %^{Year}\n\n* Summary\n\n%?"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n")
+         :unnarrowed t)
+        ("p" "project" plain "* Goals\n\n%?\n\n* Tasks\n\n** TODO Add initial tasks\n\n* Dates\n\n"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: Project")
+         [[id:33f72410-a8fa-4492-9b18-814288c4c063][Roam Capture Templates]]:unnarrowed t)
+         ))
+#+end_src
+
 *** org-roam-server
 See [[https://github.com/org-roam/org-roam-server][org-roam/org-roam-server: A Web Application to Visualize the Org-Roam Database]]
 From  https://github.com/hlissner/doom-emacs/issues/3959
