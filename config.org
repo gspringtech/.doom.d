@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2024-08-19 10:08:04 alisterpillow>
+Time-stamp: <2025-09-10 12:29:36 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -244,6 +244,7 @@ https://github.com/hlissner/doom-emacs/issues/576
              org-bullets-bullet-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
              org-id-link-to-org-use-id 'create-if-interactive
              org-confirm-babel-evaluate t))
+(after! org (global-org-modern-mode))
 (add-hook 'org-mode-hook #'turn-off-smartparens-mode)
 (add-hook 'before-save-hook 'time-stamp)
 (setq org-agenda-files "~/org/agenda-files")
@@ -313,6 +314,12 @@ Also want a shortcut for creating a new journal entry - it's =SPC m j=
 *** Agenda, tasks and tags
 It's important to be consistent because otherwise TODO-markers will not be
 recognised. I've decided to go with the default TODO markers
+#+begin_src emacs-lisp
+(use-package! org-super-agenda)
+#+end_src
+
+#+RESULTS:
+: org-super-agenda
 
 Super Agenda [[https://github.com/alphapapa/org-super-agenda][alphapapa/org-super-agenda: Supercharge your Org daily/weekly agenda by grouping items]]
 #+BEGIN_SRC emacs-lisp :tangle no
@@ -471,7 +478,14 @@ As per [[https://www.rousette.org.uk/archives/doom-emacs-tweaks-org-journal-and-
 (use-package! websocket
     :after org-roam)
 
+(map! :after org
+ :localleader
+"P n" #'org-roam-to-apple-notes
+)
+
 #+end_src
+
+#+RESULTS:
 
 This should be the same on all my machines Except that it won't work for the last two - they will need to be in the +local config.
 NOT USED - old
@@ -580,7 +594,7 @@ It needs to be started like this:
 : toggle-org-roam-buffer-position
 
 ** Org-noter
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle no
 (map!
  (:map pdf-view-mode-map
        :n "i" #'org-noter-insert-note))
@@ -612,7 +626,7 @@ There is a simpler solution - REPLACE THIS
   "ediff the current `init.el' with the example in doom-emacs-dir"
   (interactive)
   (ediff-files (concat doom-private-dir "init.el")
-               (concat doom-emacs-dir "init.example.el")))
+               (concat doom-emacs-dir "static/init.example.el")))
 
 (define-key! help-map
   "di"   #'doom/ediff-init-and-example

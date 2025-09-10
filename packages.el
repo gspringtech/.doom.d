@@ -55,6 +55,7 @@
 ;; (package! helm-org-rifle)
 (package! org-ql)
 (package! org-super-agenda)
+(package! org-modern)
 (package! minions)
 ;; (package! elfeed)
 ;; (package! elfeed-org)
@@ -81,3 +82,5 @@
 (package! printing)
 (package! org-mac-link)
 (package! fira-code-mode)
+(package! org-roam-to-apple-notes
+  :recipe (:host github :repo "cpbotha/org-roam-to-apple-notes"))
