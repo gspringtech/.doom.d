@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2025-09-19 09:47:02 alisterpillow>
+Time-stamp: <2026-04-13 12:08:36 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -419,10 +419,10 @@ From StackExchange : https://emacs.stackexchange.com/questions/72147/org-mode-ad
 : my-org-mode-date-heading-off
 
 ** Org-Journal adjustments
-*** Fix for gpg 2.4 hanging - downgrade to 2.2
-#+begin_src emacs-lisp
+*** Fix for gpg 2.4 hanging - downgrade to 2.2 (EPA)
+#+begin_src emacs-lisp :tangle no
 (custom-set-variables
-  '(epg-gpg-program "/opt/homebrew/opt/gnupg@2.2/bin/gpg")
+   '(epg-gpg-program "/opt/homebrew/bin/gpg")
 )
 #+end_src
 

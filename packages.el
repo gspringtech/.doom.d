@@ -76,7 +76,6 @@
 (unpin! org-roam)
 (package! org-roam-ui)
 ;; (unpin! org-roam-server)
-(package! map :pin "bb50dba")
 (package! ob-mermaid)
 (package! mermaid-mode)
 (package! printing)
