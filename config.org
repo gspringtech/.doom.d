@@ -2,7 +2,7 @@
 #+AUTHOR:    Alister Pillow
 #+EMAIL:     alisterhp@mac.com
 #+CATEGORY: CONFIG
-Time-stamp: <2026-04-13 12:08:36 alisterpillow>
+Time-stamp: <2026-04-14 16:40:23 alisterpillow>
 [[doom-modules:editor/evil/README.org][evil Readme]]
 * How to edit this file
 ** Keybindings
@@ -445,7 +445,6 @@ As per [[https://www.rousette.org.uk/archives/doom-emacs-tweaks-org-journal-and-
 (map! :leader
       (:prefix ("j" . "journal") ;; org-journal bindings
         :desc "Open the calendar"         "c" #'calendar
-        :desc "Fancy calendar!"           "f" #'calendar=
         :desc "Create new journal entry"  "j" #'org-journal-new-entry
         :desc "Open previous entry"       "p" #'org-journal-open-previous-entry
         :desc "Open next entry"           "n" #'org-journal-open-next-entry
