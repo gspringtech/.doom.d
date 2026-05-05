@@ -66,6 +66,7 @@
 
        :emacs
        ( dired
+         +dirvish
          ;; +ranger
          +icons )                 ; making dired pretty [functional]
        electric                   ; smarter, keyword-based electric-indent
