@@ -71,6 +71,7 @@
          +icons )                 ; making dired pretty [functional]
        electric                   ; smarter, keyword-based electric-indent
        ibuffer                    ; interactive buffer management
+       tramp                      ; remote files at your arthritic fingertips
        vc                         ; version-control and Emacs, sitting in a tree
        undo
 
@@ -89,7 +90,7 @@
        ;;ansible
        ;;debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
-       docker
+       ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)       ; run code, run (also, repls)
@@ -193,7 +194,7 @@
        ;;(wanderlust +gmail)
 
        :app
-       calendar
+       ;; calendar
        ;;emms
        ;;everywhere        ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize
